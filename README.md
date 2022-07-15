@@ -12,7 +12,7 @@ npm run start
 
 ## 접속
 
-`http://localhost:3000`
+[`http://localhost:3000`](http://localhost:3000)
 
 ## 사용
 
@@ -29,6 +29,8 @@ npm run start
 
 ```shell
 npx create-react-app --template typescript
+
+npm install react-router-dom
 
 npm install firebase
 
@@ -64,3 +66,11 @@ const app = initializeApp(firebaseConfig);
 
 export default app;
 ```
+
+### firebase 계정 생성 및 로그인 처리 [Firebase 문서(비밀번호 인증)](https://firebase.google.com/docs/auth/web/password-auth)
+
+| 메소드                           | 파라미터                                   | 기능                                  |
+| -------------------------------- | ------------------------------------------ | ------------------------------------- |
+| `createUserWithEmailAndPassword` | `getAuth()`,&nbsp;`email`,&nbsp;`password` | 신규 계정 생성                        |
+| `signInWithEmailAndPassword`     | `getAuth()`,&nbsp;`email`,&nbsp;`password` | 사용자 로그인 처리                    |
+| `onAuthStateChanged`             | `getAuth(),`&nbsp;`callbackFunction`       | Auth 객체 관찰자 설정(Auth 변화 감지) |
