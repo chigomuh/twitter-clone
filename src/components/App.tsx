@@ -2,18 +2,16 @@ import RouterComponent from "components/Router";
 import { useState } from "react";
 import { authService } from "firebaseConfig";
 import { useEffect } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 
 function App() {
   const [init, setInit] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
+        setUser(user);
       }
 
       setInit(true);
@@ -22,8 +20,8 @@ function App() {
 
   return (
     <>
-      {init ? (
-        <RouterComponent isLoggedIn={isLoggedIn} />
+      {init && user ? (
+        <RouterComponent isLoggedIn={Boolean(user)} user={user} />
       ) : (
         <div>초기화 중...</div>
       )}

@@ -74,3 +74,13 @@ export default app;
 | `createUserWithEmailAndPassword` | `getAuth()`,&nbsp;`email`,&nbsp;`password` | 신규 계정 생성                        |
 | `signInWithEmailAndPassword`     | `getAuth()`,&nbsp;`email`,&nbsp;`password` | 사용자 로그인 처리                    |
 | `onAuthStateChanged`             | `getAuth(),`&nbsp;`callbackFunction`       | Auth 객체 관찰자 설정(Auth 변화 감지) |
+
+### firbase 클라우드 데이터베이스 관련 기능 [Firebase 문서(Cloud Firestore)](https://firebase.google.com/docs/firestore)
+
+| 메소드         | 파라미터                                                               | 기능                          |
+| -------------- | ---------------------------------------------------------------------- | ----------------------------- |
+| `addDoc()`     | `collection(getAuth(), "컬렉션명")`,&nbsp; `{ 추가 데이터 }`           | 데이터 추가                   |
+| `updateDoc()`  | `doc(getAuth(), "컬렉션명", "변경할 문서ID")`,&nbsp; `{ 수정 데이터 }` | 데이터 수정                   |
+| `deleteDoc()`  | `doc(getAuth(), "컬렉션명", "삭제할 문서ID")`                          | 데이터 삭제                   |
+| `getDosc()`    | `collection(getAuth(), "컬렉션명")`                                    | 모든 데이터 읽기              |
+| `onSnapshot()` | `collection(getAuth(), "컬렉션명")`,&nbsp; `callbackFunction`          | 데이터 읽기(실시간 변경 반영) |

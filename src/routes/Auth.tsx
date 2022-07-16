@@ -2,9 +2,14 @@ import { authService } from "firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import React, { useState } from "react";
 import { FirebaseError } from "firebase/app";
+
+type FirebaseProvider = GoogleAuthProvider | GoogleAuthProvider;
 
 const Auth = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +19,7 @@ const Auth = () => {
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const {
-      target: { name, value },
+      currentTarget: { name, value },
     } = event;
 
     if (name === "email") {
@@ -29,21 +34,13 @@ const Auth = () => {
 
     try {
       if (newAccount) {
-        const data = await createUserWithEmailAndPassword(
-          authService,
-          email,
-          password
-        );
+        await createUserWithEmailAndPassword(authService, email, password);
       } else {
-        const data = await signInWithEmailAndPassword(
-          authService,
-          email,
-          password
-        );
+        await signInWithEmailAndPassword(authService, email, password);
       }
     } catch (error) {
       if (error instanceof FirebaseError) {
-        console.log(error.message);
+        console.error(error);
         setError(error.code);
       }
     }
@@ -51,6 +48,30 @@ const Auth = () => {
 
   const toggleAccount = () => {
     setNewAccount((prev) => !prev);
+  };
+
+  const signInWithPopupProvider = async (provider: FirebaseProvider) => {
+    try {
+      await signInWithPopup(authService, provider);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onSocialClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const {
+      currentTarget: { name },
+    } = event;
+
+    if (name === "google") {
+      const provider = new GoogleAuthProvider();
+
+      signInWithPopupProvider(provider);
+    } else if (name === "github") {
+      const provider = new GithubAuthProvider();
+
+      signInWithPopupProvider(provider);
+    }
   };
 
   return (
@@ -84,8 +105,12 @@ const Auth = () => {
       </span>
 
       <div>
-        <button>Continue with Google</button>
-        <button>Continue with Github</button>
+        <button name="google" onClick={onSocialClick}>
+          Continue with Google
+        </button>
+        <button name="github" onClick={onSocialClick}>
+          Continue with Github
+        </button>
       </div>
     </div>
   );

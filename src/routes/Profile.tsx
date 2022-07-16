@@ -1,5 +1,25 @@
+import { signOut } from "firebase/auth";
+import { authService } from "firebaseConfig";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
-  return <div>프로필</div>;
+  const navigator = useNavigate();
+
+  const onLogOutClick = () => {
+    try {
+      signOut(authService);
+
+      navigator("/", { replace: true });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <>
+      <button onClick={onLogOutClick}>Log Out</button>
+    </>
+  );
 };
 
 export default Profile;
