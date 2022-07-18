@@ -1,6 +1,21 @@
+import { User } from "firebase/auth";
 import { Link } from "react-router-dom";
 
-const Navigation = () => {
+interface Props {
+  user: User | null;
+}
+
+const Navigation = ({ user }: Props) => {
+  let userDisplayName = "익명";
+
+  if (user) {
+    if (user.displayName) {
+      userDisplayName = user.displayName;
+    } else if (user.email) {
+      userDisplayName = user.email.split("@")[0];
+    }
+  }
+
   return (
     <nav>
       <ul>
@@ -8,7 +23,7 @@ const Navigation = () => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/profile">Profile</Link>
+          <Link to="/profile">{userDisplayName}의 Profile</Link>
         </li>
       </ul>
     </nav>

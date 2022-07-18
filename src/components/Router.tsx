@@ -7,18 +7,22 @@ import { User } from "firebase/auth";
 
 interface Props {
   isLoggedIn: boolean;
-  user: User;
+  user: User | null;
+  refreshUser: () => void;
 }
 
-const RouterComponent = ({ isLoggedIn, user }: Props) => {
+const RouterComponent = ({ refreshUser, isLoggedIn, user }: Props) => {
   return (
     <Router>
-      {isLoggedIn && <Navigation />}
+      {isLoggedIn && <Navigation user={user} />}
       <Routes>
-        {isLoggedIn ? (
+        {isLoggedIn && user ? (
           <>
             <Route path="/" element={<Home user={user} />}></Route>
-            <Route path="/profile" element={<Profile />}></Route>
+            <Route
+              path="/profile"
+              element={<Profile user={user} refreshUser={refreshUser} />}
+            ></Route>
           </>
         ) : (
           <Route path="/" element={<Auth />}></Route>

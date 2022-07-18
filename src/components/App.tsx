@@ -11,17 +11,29 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        setUser(user);
+        setUser({ ...user });
       }
 
       setInit(true);
     });
   }, []);
 
+  const refreshUser = () => {
+    const user = authService.currentUser;
+
+    if (user) {
+      setUser({ ...user });
+    }
+  };
+
   return (
     <>
-      {init && user ? (
-        <RouterComponent isLoggedIn={Boolean(user)} user={user} />
+      {init ? (
+        <RouterComponent
+          refreshUser={refreshUser}
+          isLoggedIn={Boolean(user)}
+          user={user}
+        />
       ) : (
         <div>초기화 중...</div>
       )}
