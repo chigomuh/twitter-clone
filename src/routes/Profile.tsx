@@ -18,9 +18,10 @@ const Profile = ({ user, refreshUser }: Props) => {
 
   const onLogOutClick = () => {
     try {
-      signOut(authService);
-
-      navigator("/", { replace: true });
+      signOut(authService).then(() => {
+        navigator("/", { replace: true });
+        refreshUser();
+      });
     } catch (error) {
       console.error(error);
     }

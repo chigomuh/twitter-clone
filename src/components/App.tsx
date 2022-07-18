@@ -23,6 +23,8 @@ function App() {
 
     if (user) {
       setUser({ ...user });
+    } else {
+      setUser(null);
     }
   };
 
