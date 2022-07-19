@@ -1,4 +1,4 @@
-import RouterComponent from "components/Router";
+import RouterComponent from "routes/Router";
 import { useState } from "react";
 import { authService } from "firebaseConfig";
 import { useEffect } from "react";

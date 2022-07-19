@@ -4,16 +4,17 @@ import {
   GithubAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import AuthForm from "components/AuthForm";
 import { ReactComponent as TwitterIcon } from "images/twitterIcon.svg";
 import { ReactComponent as GoogleIcon } from "images/googleIcon.svg";
 import { ReactComponent as GithubIcon } from "images/githubIcon.svg";
 import { footerContent } from "config";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-type FirebaseProvider = GoogleAuthProvider | GoogleAuthProvider;
+export const onSocialClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const {
+    currentTarget: { name },
+  } = event;
 
-const Auth = () => {
   const signInWithPopupProvider = async (provider: FirebaseProvider) => {
     try {
       await signInWithPopup(authService, provider);
@@ -22,24 +23,32 @@ const Auth = () => {
     }
   };
 
-  const onSocialClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const {
-      currentTarget: { name },
-    } = event;
+  if (name === "google") {
+    const provider = new GoogleAuthProvider();
 
-    if (name === "google") {
-      const provider = new GoogleAuthProvider();
+    signInWithPopupProvider(provider);
+  } else if (name === "github") {
+    const provider = new GithubAuthProvider();
 
-      signInWithPopupProvider(provider);
-    } else if (name === "github") {
-      const provider = new GithubAuthProvider();
+    signInWithPopupProvider(provider);
+  }
+};
 
-      signInWithPopupProvider(provider);
-    }
+type FirebaseProvider = GoogleAuthProvider | GoogleAuthProvider;
+
+const Auth = () => {
+  const navigator = useNavigate();
+
+  const onClickSignUp = () => {
+    navigator("/singup");
+  };
+
+  const onClickLogIn = () => {
+    navigator("/login");
   };
 
   return (
-    <div>
+    <>
       <div className="space-y-8 pt-8 px-8">
         <TwitterIcon width="64px" height="64px" fill="#03A9F4" />
         <div className="text-4xl font-bold">
@@ -77,10 +86,11 @@ const Auth = () => {
           <button
             name="email"
             className="bg-[#03A9F4] w-full h-10 border-2 rounded-full text-white font-bold text-sm"
+            onClick={onClickSignUp}
           >
             휴대폰 번호나 이메일 주소로 가입하기
           </button>
-          <div className="text-xs">
+          <div className="text-[10px]">
             By signing up, you agree to the&nbsp;
             <Link to="/tos" className="text-[#03A9F4]">
               Terms of Service&nbsp;
@@ -97,7 +107,10 @@ const Auth = () => {
         </div>
         <div className="p-8 space-y-4">
           <div className="text-lg font-bold">이미 트위터에 가입하셨나요?</div>
-          <button className="bg-white w-full h-10 border-2 rounded-full text-[#03A9F4] font-bold">
+          <button
+            className="bg-white w-full h-10 border-2 rounded-full text-[#03A9F4] font-bold"
+            onClick={onClickLogIn}
+          >
             로그인
           </button>
         </div>
@@ -118,7 +131,7 @@ const Auth = () => {
           &copy; {new Date().getFullYear()} chigomuh
         </span>
       </footer>
-    </div>
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ interface Props {
 }
 
 const Profile = ({ user, refreshUser }: Props) => {
+  console.log("여기는 프로핑ㄹ", user.displayName);
   const userDisplayName = user.displayName
     ? user.displayName
     : user.email?.split("@")[0];
