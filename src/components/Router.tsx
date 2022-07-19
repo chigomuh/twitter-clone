@@ -13,7 +13,7 @@ interface Props {
 
 const RouterComponent = ({ refreshUser, isLoggedIn, user }: Props) => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       {isLoggedIn && <Navigation user={user} />}
       <Routes>
         {isLoggedIn && user ? (

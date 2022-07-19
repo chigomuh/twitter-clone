@@ -3,6 +3,7 @@ import { useState } from "react";
 import { authService } from "firebaseConfig";
 import { useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
+import Loading from "./Loading";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -37,9 +38,8 @@ function App() {
           user={user}
         />
       ) : (
-        <div>초기화 중...</div>
+        <Loading />
       )}
-      <footer>&copy; {new Date().getFullYear()} chigomuh</footer>
     </>
   );
 }

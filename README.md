@@ -90,3 +90,14 @@ export default app;
 | 메소드          | 파라미터                                                                                     | 기능                   |
 | --------------- | -------------------------------------------------------------------------------------------- | ---------------------- |
 | `updateProfile` | `getAuth().currentUser`,&nbsp; `{ displayName: "수정 닉네임", photoURL: "유저 이미지 경로"}` | 사용자 프로필 업데이트 |
+
+## 디자인 학습 내용
+
+### 긴 단어(text)의 강제 개행 막기
+
+```css
+/* css */
+white-space: nowrap;
+/* tailwind */
+whitespace-nowrap;
+```
