@@ -68,52 +68,55 @@ const AuthForm = ({ refreshUser }: Props) => {
   };
 
   return (
-    <div className="p-2 space-y-6 w-screent h-screen">
-      <XIcon
-        fill="black"
-        width="28px"
-        height="28px"
-        onClick={onClickMoveHome}
-      />
-      <form onSubmit={onSubmit} className="p-4 flex flex-col justify-center">
-        <div className="space-y-8">
-          <p className="text-2xl font-bold">계정을 생성하세요</p>
-          <input
-            type="email"
-            name="email"
-            placeholder="이메일"
-            value={email}
-            required
-            onChange={onChange}
-            className="w-full h-14 border-2 rounded-md px-2"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="비밀번호"
-            value={password}
-            required
-            onChange={onChange}
-            className="w-full h-14 border-2 rounded-md px-2"
-          />
-          <input
-            type="text"
-            name="displayName"
-            placeholder="닉네임"
-            value={displayName}
-            required
-            onChange={onChange}
-            className="w-full h-14 border-2 rounded-md px-2"
-          />
-          <div className="text-center text-red-500">{error}</div>
-        </div>
-        <button
-          type="submit"
-          className="w-full h-14 border-2 bg-gray-500 text-white rounded-full"
-        >
-          계정 생성
-        </button>
-      </form>
+    <div className="h-screen w-screen flex justify-center">
+      <div className="p-2 space-y-6 w-screent h-screen max-w-lg lg:flex lg:flex-col lg:justify-center">
+        <XIcon
+          fill="black"
+          width="28px"
+          height="28px"
+          onClick={onClickMoveHome}
+          className="cursor-pointer"
+        />
+        <form onSubmit={onSubmit} className="p-4 flex flex-col justify-center">
+          <div className="space-y-8">
+            <p className="text-2xl font-bold">계정을 생성하세요</p>
+            <input
+              type="email"
+              name="email"
+              placeholder="이메일"
+              value={email}
+              required
+              onChange={onChange}
+              className="w-full h-14 border-2 rounded-md px-2"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="비밀번호"
+              value={password}
+              required
+              onChange={onChange}
+              className="w-full h-14 border-2 rounded-md px-2"
+            />
+            <input
+              type="text"
+              name="displayName"
+              placeholder="닉네임"
+              value={displayName}
+              required
+              onChange={onChange}
+              className="w-full h-14 border-2 rounded-md px-2"
+            />
+            <div className="text-center text-red-500">{error}</div>
+          </div>
+          <button
+            type="submit"
+            className="w-full h-14 border-2 bg-gray-500 text-white rounded-full"
+          >
+            계정 생성
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
