@@ -1,12 +1,18 @@
 {
   "files": {
-    "main.css": "/twitter-clone/static/css/main.31d6cfe0.css",
-    "main.js": "/twitter-clone/static/js/main.e374f868.js",
+    "main.css": "/twitter-clone/static/css/main.2b1f530f.css",
+    "main.js": "/twitter-clone/static/js/main.7a1b4937.js",
+    "static/media/randingPageBackground.png": "/twitter-clone/static/media/randingPageBackground.36dbbe347e30e4be16a2.png",
+    "static/media/googleIcon.svg": "/twitter-clone/static/media/googleIcon.0b6ed60cf1aeea35ebc2a548729e0ebc.svg",
+    "static/media/githubIcon.svg": "/twitter-clone/static/media/githubIcon.e21209f267368a1bd7975dab65fcd209.svg",
+    "static/media/twitterIcon.svg": "/twitter-clone/static/media/twitterIcon.a51e76c18d89533a32fb9ce222b431e1.svg",
     "index.html": "/twitter-clone/index.html",
-    "main.e374f868.js.map": "/twitter-clone/static/js/main.e374f868.js.map"
+    "static/media/x.svg": "/twitter-clone/static/media/x.8904b51a73fb3de0b87c27662233c8d6.svg",
+    "main.2b1f530f.css.map": "/twitter-clone/static/css/main.2b1f530f.css.map",
+    "main.7a1b4937.js.map": "/twitter-clone/static/js/main.7a1b4937.js.map"
   },
   "entrypoints": [
-    "static/css/main.31d6cfe0.css",
-    "static/js/main.e374f868.js"
+    "static/css/main.2b1f530f.css",
+    "static/js/main.7a1b4937.js"
   ]
 }
