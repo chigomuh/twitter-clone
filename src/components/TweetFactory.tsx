@@ -10,6 +10,7 @@ import {
 } from "firebase/storage";
 import { User } from "firebase/auth";
 import { cloudDatabase } from "firebaseConfig";
+import FetchLoading from "./FetchLoading";
 
 interface Props {
   user: User;
@@ -19,14 +20,17 @@ const TweetFactory = ({ user }: Props) => {
   const [tweet, setTweet] = useState("");
   const [attachment, setAttachment] = useState<string | null>(null);
   const imageFileRef = useRef<HTMLInputElement>(null);
-  const storage = getStorage();
+  const [submitError, setSubmitError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       if (tweet !== "" && user !== null) {
-        const attachmentRef = ref(storage, `${user.uid}/${uuidv4()}`);
+        setLoading(true);
+
+        const attachmentRef = ref(getStorage(), `${user.uid}/${uuidv4()}`);
 
         let attachmentUrl = null;
         if (attachment) {
@@ -34,23 +38,30 @@ const TweetFactory = ({ user }: Props) => {
           attachmentUrl = await getDownloadURL(attachmentRef);
         }
 
+        const photoURL = user.photoURL;
+
         const data = {
           uid: user.uid,
           displayName: user.displayName,
           text: tweet,
           createAt: Date.now(),
           attachmentUrl,
+          photoURL,
         };
 
-        await addDoc(collection(cloudDatabase, "tweets"), data);
+        const result = await addDoc(collection(cloudDatabase, "tweets"), data);
 
-        setTweet("");
-        setAttachment(null);
-        if (imageFileRef.current) {
-          imageFileRef.current.value = "";
+        if (result) {
+          setLoading(false);
+          setTweet("");
+          setAttachment(null);
+          if (imageFileRef.current) {
+            imageFileRef.current.value = "";
+          }
+          setSubmitError(false);
         }
       } else {
-        alert("내용을 입력해주세요.");
+        setSubmitError(true);
       }
     } catch (error) {
       console.error(error);
@@ -92,33 +103,62 @@ const TweetFactory = ({ user }: Props) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        placeholder="무슨 생각을 하고 계신가요?"
-        maxLength={120}
-        onChange={onChange}
-        value={tweet}
-      />
-      <input
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-        ref={imageFileRef}
-      />
-      <input type="submit" value="tweet" />
-      {attachment && (
-        <>
-          <img
-            src={attachment}
-            width="250px"
-            height="250px"
-            alt="upload-Thumnail"
+    <div className="w-full h-max bg-white">
+      {loading && <FetchLoading />}
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col items-center w-full p-4 space-y-4"
+      >
+        <input
+          type="text"
+          placeholder="무슨 생각을 하고 계신가요?"
+          maxLength={120}
+          onChange={onChange}
+          value={tweet}
+          className="w-full h-10 border-2 rounded-full px-4"
+        />
+        {submitError && (
+          <div className="text-red-700 font-bold">내용을 입력하세요.</div>
+        )}
+        <div className="flex justify-between w-full px-2">
+          <label
+            htmlFor="fileInput"
+            className="border-2 rounded-full w-28 text-center bg-[#03A9F4] text-white font-bold"
+          >
+            사진 업로드
+            <input
+              type="file"
+              accept="image/*"
+              onChange={onFileChange}
+              ref={imageFileRef}
+              className="hidden"
+              id="fileInput"
+            />
+          </label>
+          <input
+            type="submit"
+            value="트윗"
+            className="border-2 rounded-full w-16 bg-[#03A9F4] text-white font-bold"
           />
-          <button onClick={onClearAttachmentClick}>Clear</button>
-        </>
-      )}
-    </form>
+        </div>
+        {attachment && (
+          <>
+            <img
+              src={attachment}
+              width="250px"
+              height="250px"
+              alt="upload-Thumnail"
+            />
+            <button
+              onClick={onClearAttachmentClick}
+              className="border-2 rounded-full w-16 bg-[#03A9F4] text-white"
+            >
+              취소
+            </button>
+          </>
+        )}
+      </form>
+    </div>
   );
 };
 

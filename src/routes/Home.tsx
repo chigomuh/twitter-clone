@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { cloudDatabase } from "firebaseConfig";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { User } from "firebase/auth";
 import Tweet from "components/Tweet";
 import TweetFactory from "components/TweetFactory";
@@ -15,6 +15,7 @@ interface AddTweet {
   text: string;
   uid: string;
   attachmentUrl: string | null;
+  photoURL: string | null;
 }
 
 export interface TweetData extends AddTweet {
@@ -25,9 +26,15 @@ const Home = ({ user }: Props) => {
   const [tweets, setTweets] = useState<TweetData[]>([]);
 
   useEffect(() => {
-    onSnapshot(collection(cloudDatabase, "tweets"), (doc) => {
+    const q = query(
+      collection(cloudDatabase, "tweets"),
+      orderBy("createAt", "desc")
+    );
+
+    onSnapshot(q, (doc) => {
       const tweetArray: TweetData[] = doc.docs.map((doc) => {
-        const { createAt, displayName, text, uid, attachmentUrl } = doc.data();
+        const { createAt, displayName, text, uid, attachmentUrl, photoURL } =
+          doc.data();
 
         return {
           id: doc.id,
@@ -36,6 +43,7 @@ const Home = ({ user }: Props) => {
           text,
           uid,
           attachmentUrl,
+          photoURL,
         };
       });
 
@@ -44,12 +52,18 @@ const Home = ({ user }: Props) => {
   }, []);
 
   return (
-    <>
-      <TweetFactory user={user} />
-      {tweets.map((tweet) => (
-        <Tweet key={tweet.id} tweet={tweet} isOwner={tweet.uid === user?.uid} />
-      ))}
-    </>
+    <div className="w-full flex flex-col items-center">
+      <div className="max-w-4xl w-full">
+        <TweetFactory user={user} />
+        {tweets.map((tweet) => (
+          <Tweet
+            key={tweet.id}
+            tweet={tweet}
+            isOwner={tweet.uid === user?.uid}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 

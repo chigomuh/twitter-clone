@@ -95,7 +95,7 @@ const Auth = () => {
               className="bg-[#03A9F4] w-full h-10 border-2 rounded-full text-white font-bold text-sm max-w-md"
               onClick={onClickSignUp}
             >
-              휴대폰 번호나 이메일 주소로 가입하기
+              이메일 주소로 가입하기
             </button>
             <div className="text-[10px]">
               By signing up, you agree to the&nbsp;

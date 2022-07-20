@@ -2,7 +2,21 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        loading: {
+          "0%": {
+            left: "10%",
+          },
+          "100%": {
+            left: "80%",
+          },
+        },
+      },
+      animation: {
+        loading: "loading 3s linear infinite",
+      },
+    },
   },
   plugins: [],
 };
